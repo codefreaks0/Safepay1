@@ -1,0 +1,15 @@
+Flask
+Flask-Cors
+Flask-Limiter
+joblib
+numpy
+SpeechRecognition
+pytesseract
+Pillow
+opencv-python
+redis
+requests
+textblob
+spacy
+werkzeug
+fuzzywuzzy 

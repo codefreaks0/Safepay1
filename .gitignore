@@ -1,0 +1,76 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+
+# Environment
+.env
+.env.*
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Compiled
+*.so
+*.dll
+*.exe
+*.out
+*.class
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Media
+*.mp4
+*.mp3
+*.avi
+*.mov
+
+# Misc
+*.swp
+*.swo
+
+# Ignore data files
+*.csv
+*.tsv
+*.xls
+*.xlsx
+
+# Ignore build
+build/
+dist/
+
+# Ignore coverage
+coverage/
+
+# Ignore test output
+test-output/
+
+# Ignore other common folders
+.idea/ 

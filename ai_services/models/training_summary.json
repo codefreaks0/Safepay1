@@ -1,0 +1,10 @@
+{
+    "total_videos": 110,
+    "scam_videos": 55,
+    "legitimate_videos": 55,
+    "total_audio_files": 0,
+    "scam_audio_files": 0,
+    "legitimate_audio_files": 0,
+    "visual_samples": 110,
+    "audio_samples": 110
+}

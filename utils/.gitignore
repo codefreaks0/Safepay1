@@ -1,0 +1,45 @@
+# dependencies
+node_modules/
+
+# build outputs
+dist/
+build/
+
+# cache
+.cache/
+.npm/
+
+# logs
+logs/
+*.log
+
+# media and datasets
+*.mp3
+*.csv
+*.json.gz
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+.pythonlibs/
+cache/
+prediction_cache/
+
+# ML artifacts
+*.pth
+*.pt
+*.onnx
+*.h5
+*.joblib
+
+# Large data
+data/
+*.zip
+*.mp4
+*.wav
+
+# Development files
+.vscode/
+.github/
