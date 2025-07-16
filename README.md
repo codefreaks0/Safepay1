@@ -4,35 +4,53 @@ SafePay is a comprehensive security platform that uses AI/ML to protect users fr
 
 ## 🚀 Features
 
-- **QR Code Security**: Advanced ML-based QR code scanning and risk assessment
-- **Voice/Text Scam Detection**: AI-powered detection of voice and text-based scams
-- **Video Fraud Detection**: Real-time video analysis for fraud detection
-- **UPI Fraud Prevention**: Specialized detection for UPI payment frauds
-- **Real-time Monitoring**: Continuous monitoring and alerting system
+- **QR Code Security**: Advanced ML-based QR code scanning and risk assessment  
+- **Voice/Text Scam Detection**: AI-powered detection of voice and text-based scams  
+- **Video Fraud Detection**: Real-time video analysis for fraud detection  
+- **UPI Fraud Prevention**: Specialized detection for UPI payment frauds  
+- **Real-time Monitoring**: Continuous monitoring and alerting system  
 
 ## 🎥 Project Demo Video
-
-Watch the full demo of SafePay in action:
 
 [Watch the Demo on YouTube](https://youtu.be/iIcMu-H2q9s?si=1h5h4VzrtPoUri4K)
 
 ## 📑 Project Presentation (PPT)
 
-Download or view the project presentation for SafePay:
-
 [Download SafePay Project PPT](https://docs.google.com/presentation/d/1Yb3RwGixazAoptfjG-xXe5si-9WjMfM_/edit?usp=drive_link&ouid=112200168308218978257&rtpof=true&sd=true)
 
 ## 📸 UI Screenshots
 
-Below are some screenshots of the SafePay user interface:
+### 💻 SafePay Screenshots
 
-<!-- Replace these with your actual image paths or URLs -->
-
-<!-- Add as many as you want! -->
+![Screenshot 1](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-06-17%20095250.png)  
+![Screenshot 2](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-06-17%20100740.png)  
+![Screenshot 3](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-06-17%20101028.png)  
+![Screenshot 4](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-15%20235008.png)  
+![Screenshot 5](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-15%20235812.png)  
+![Screenshot 6](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-15%20235824.png)  
+![Screenshot 7](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-15%20235833.png)  
+![Screenshot 8](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-15%20235839.png)  
+![Screenshot 9](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-15%20235847.png)  
+![Screenshot 10](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-15%20235856.png)  
+![Screenshot 11](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-15%20235916.png)  
+![Screenshot 12](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-15%20235928.png)  
+![Screenshot 13](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-15%20235939.png)  
+![Screenshot 14](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-15%20235948.png)  
+![Screenshot 15](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-16%20000004.png)  
+![Screenshot 16](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-16%20000018.png)  
+![Screenshot 17](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-16%20000107.png)  
+![Screenshot 18](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-16%20000117.png)  
+![Screenshot 19](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-16%20000125.png)  
+![Screenshot 20](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-16%20000136.png)  
+![Screenshot 21](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-16%20000200.png)  
+![Screenshot 22](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-16%20000208.png)  
+![Screenshot 23](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-16%20000217.png)  
+![Screenshot 24](https://raw.githubusercontent.com/codefreaks0/Safepay1/main/Images/Screenshot%202025-07-16%20000302.png)
 
 ---
 
 ## 🛠️ Known Issues & Future Roadmap
+
 
 ### ❗ Known Limitations (To Be Addressed)
 - **Voice Detection Accuracy in Noisy Environments**
