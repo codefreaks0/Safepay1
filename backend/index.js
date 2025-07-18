@@ -567,7 +567,7 @@ app.post('/api/ocr-extract', multer().single('image'), async (req, res) => {
   try {
     const form = new FormData();
     form.append('image', req.file.buffer, req.file.originalname);
-    const flaskRes = await fetch('http://localhost:5000/ocr-extract', {
+    const flaskRes = await fetch('http://localhost:8090/ocr-extract', {
       method: 'POST',
       body: form,
       headers: form.getHeaders(),
@@ -582,7 +582,7 @@ app.post('/api/ocr-extract', multer().single('image'), async (req, res) => {
 // Proxy Analyze Text to Flask
 app.post('/api/analyze-text', express.json(), async (req, res) => {
   try {
-    const flaskRes = await fetch('http://localhost:5000/predict-text', {
+    const flaskRes = await fetch('http://localhost:8090/predict-text', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(req.body),
