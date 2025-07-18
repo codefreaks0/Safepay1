@@ -24,3 +24,13 @@ imblearn
 lightgbm
 catboost
 uvicorn
+fastapi
+torch
+transformers
+sentencepiece
+librosa
+soundfile
+tochvision
+python-dotenv
+python-multipart
+
