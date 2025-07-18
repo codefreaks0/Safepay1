@@ -13,7 +13,6 @@ pytesseract
 opencv-python
 CORS
 gdown
-cv2
 flask
 scikit-learn
 pandas
@@ -24,5 +23,3 @@ imbalanced-learn
 imblearn
 lightgbm
 catboost
-sklearn
-
