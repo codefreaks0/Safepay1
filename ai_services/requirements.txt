@@ -3,7 +3,6 @@ scikit-learn
 pandas
 joblib
 SpeechRecognition
-pyaudio
 numpy
 flask-cors
 pytesseract 
