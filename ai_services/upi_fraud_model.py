@@ -498,12 +498,27 @@ data, _, _ = load_and_preprocess_data()
 
 @app.route('/predict-upi-fraud', methods=['POST'])
 def predict():
+    print("Received request on /predict-upi-fraud")  # Debug log
     req = request.get_json()
+    print("Request JSON:", req)  # Debug log
     upi_id = req.get('upi_id')
     if not upi_id:
+        print("Error: upi_id is required")
         return jsonify({'error': 'upi_id is required'}), 400
     result = predict_upi_fraud(upi_id, data, model)
-    return jsonify(result)
+    print("Prediction result (full):", result)  # Debug log
+
+    # Only return required fields
+    filtered_result = {
+        "upi_id": result.get("upi_id"),
+        "fraud_probability": result.get("fraud_probability"),
+        "risk_level": result.get("risk_level"),
+        "safety_status": result.get("safety_status"),
+        "beneficiary_recent_frauds": result.get("beneficiary_recent_frauds"),
+        "payer_recent_frauds": result.get("payer_recent_frauds"),
+    }
+    print("Filtered result (sent to backend):", filtered_result)
+    return jsonify(filtered_result)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5005, debug=True) 
