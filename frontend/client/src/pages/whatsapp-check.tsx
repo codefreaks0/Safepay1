@@ -46,6 +46,10 @@ const WhatsAppCheck = () => {
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
+      if (selectedFile.size === 0) {
+        toast({ title: 'File Error', description: 'Selected file is empty.', variant: 'destructive' });
+        return;
+      }
       setImage(selectedFile);
       // Create preview URL
       const reader = new FileReader();
@@ -58,6 +62,7 @@ const WhatsAppCheck = () => {
       setOcrError(null);
       setResult(null);
       try {
+        // WhatsApp analysis expects 'screenshot' field
         const formData = new FormData();
         formData.append('screenshot', selectedFile);
         const res = await fetch('/api/analyze-whatsapp', { method: 'POST', body: formData });
@@ -120,9 +125,14 @@ const WhatsAppCheck = () => {
     let textToAnalyze = description;
     // If image is present and description is empty, extract text via OCR
     if (image && !description) {
+      if (image.size === 0) {
+        toast({ title: 'File Error', description: 'Selected file is empty.', variant: 'destructive' });
+        setAnalyzing(false);
+        return;
+      }
       try {
         const ocrForm = new FormData();
-        ocrForm.append('image', image);
+        ocrForm.append('image', image); // Always use 'image' as the field name for OCR
         const ocrRes = await fetch('/api/ocr-extract', { method: 'POST', body: ocrForm });
         if (!ocrRes.ok) throw new Error('OCR extraction failed');
         const ocrData = await ocrRes.json();
