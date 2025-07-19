@@ -33,4 +33,5 @@ soundfile
 torchvision
 python-dotenv
 python-multipart
-
+openai-whisper
+ffmpeg-python
