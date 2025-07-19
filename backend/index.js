@@ -12,7 +12,6 @@ const path = require('path');
 const axios = require('axios');
 const fs = require('fs');
 const multer = require('multer');
-const fetch = require('node-fetch');
 const FormData = require('form-data');
 
 const app = express();
@@ -46,7 +45,7 @@ mongoose.connect('mongodb+srv://yashsajwan2004:1NV2Y7QwL6YU8nEF@cluster0.ycb55bx
 // 3. Express Session Middleware
 app.use(session({
   name: 'safepay.sid', // Explicitly set a custom session cookie name
-  secret: 'd01c0b3a3c9b7e7a7f4a2b9d8e6c5a4f3b2c1d0e9a8f7b6a5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3d3b2c1d0e9a8f7b6a5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3',
+  secret: 'd01c0b3a3c9b7e7a7f4a2b9d8e6c5a4f3b2c1d0e9a8f7b6a5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3',
   resave: false,
   saveUninitialized: false,
   proxy: true,
@@ -368,7 +367,7 @@ app.post('/api/process-audio', async (req, res) => {
   if (req.body && req.body.transcript) {
     try {
       // Call your AI service with the transcript
-      const response = await axios.post('http://localhost:8082/analyze-voice', {
+      const response = await axios.post('https://safepay1-3sms.onrender.com/analyze-voice', {
         transcript: req.body.transcript
       });
       
@@ -447,7 +446,7 @@ app.post('/api/process-audio', async (req, res) => {
 
     // 4. Run scam analysis on the transcribed text
     try {
-      const analysisResponse = await axios.post('http://localhost:8082/analyze-voice', {
+      const analysisResponse = await axios.post('https://safepay1-3sms.onrender.com/analyze-voice', {
         transcript: transcript
       });
       
@@ -636,40 +635,33 @@ app.post('/api/analyze-whatsapp', upload.single('screenshot'), async (req, res) 
 // --- BEGIN UPI RISK CHECK ENDPOINT ---
 /**
  * GET /api/upi/check/:upiId
- * Returns a dummy UPI risk analysis for the given UPI ID.
- * TODO: Connect to real risk analysis logic or database.
+ * Proxies to Flask AI service for real UPI risk analysis.
  */
 app.get('/api/upi/check/:upiId', async (req, res) => {
-  const { upiId } = req.params;
-  // Dummy logic: mark as suspicious if contains 'fraud', else safe
-  let riskLevel = 'Low';
-  let riskPercentage = 10;
-  let reports = 0;
-  let reason = 'No suspicious activity detected.';
-  let status = 'SAFE';
-
-  if (upiId.toLowerCase().includes('fraud')) {
-    riskLevel = 'High';
-    riskPercentage = 90;
-    reports = 5;
-    reason = 'Reported for scam activity.';
-    status = 'SCAM';
-  } else if (upiId.toLowerCase().includes('test')) {
-    riskLevel = 'Medium';
-    riskPercentage = 50;
-    reports = 1;
-    reason = 'UPI ID flagged for review.';
-    status = 'SUSPICIOUS';
+  console.log('UPI param:', req.params.upiId);
+  const { upiId } = req.params; // Express automatically decodes %40 to @
+  try {
+    const flaskRes = await fetch('http://localhost:5005/predict-upi-fraud', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ upi_id: upiId })
+    });
+    const data = await flaskRes.json();
+    if (!flaskRes.ok || data.error) {
+      return res.status(400).json({ error: data.error || 'Failed to analyze UPI ID' });
+    }
+    // Only send required fields to frontend
+    res.json({
+      upiId: data.upi_id,
+      fraudProbability: data.fraud_probability,
+      riskLevel: data.risk_level,
+      safetyStatus: data.safety_status,
+      beneficiaryRecentFrauds: data.beneficiary_recent_frauds,
+      payerRecentFrauds: data.payer_recent_frauds
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Proxy UPI risk check failed', details: err.message });
   }
-
-  res.json({
-    upiId,
-    riskPercentage,
-    riskLevel,
-    reports,
-    reason,
-    status
-  });
 });
 // --- END UPI RISK CHECK ENDPOINT ---
 
@@ -702,4 +694,18 @@ app.post('/api/enhanced-fraud-detection', async (req, res) => {
 const PORT = 6900;
 app.listen(PORT, () => {
   console.log(`Node.js backend running on port ${PORT}`);
+});
+
+app.get('/test-flask', async (req, res) => {
+  try {
+    const flaskRes = await fetch('http://localhost:5005/predict-upi-fraud', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ upi_id: 'test@upi' })
+    });
+    const data = await flaskRes.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
