@@ -123,27 +123,22 @@ git clone https://github.com/codefreaks0/Safepay1
 cd safepay
 ```
 
-2. Install frontend dependencies:
+2. Install and run frontend:
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-3. Install backend dependencies:
+3. Install and run backend:
 ```bash
 cd backend
 npm install
 npm start
 ```
 
-4. Set up environment variables:
-```bash
-cp .env.example .env
-# Edit .env with your configuration
-```
 
-5. Start the services:
+4. Start the services:
 ```bash
 cd ai_services
 python -m venv .venv
