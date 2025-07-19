@@ -127,6 +127,7 @@ cd safepay
 ```bash
 cd frontend
 npm install
+npm run dev
 ```
 
 3. Install backend dependencies:
@@ -171,13 +172,7 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 python video_detection_service.py
 ```
-## 🧪 Running Tests
 
-```bash
-# Frontend tests
-cd frontend
-npm test
-```
 ## 📘 API Documentation
 
 ### 🌐 Main Express Backend (Node.js)
@@ -270,10 +265,4 @@ npm test
 
 ---
 
-### 🧪 Testing Example
-```bash
-curl -X POST http://localhost:8082/analyze-voice \
-  -H "Content-Type: application/json" \
-  -d '{"transcript": "Your account is suspended, verify now."}'
-```
 
