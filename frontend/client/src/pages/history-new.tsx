@@ -114,7 +114,14 @@ const formatAmount = (amount: number, currency = "inr") => {
 // Format timestamp to human-readable date/time
 const formatTimestamp = (timestamp: string) => {
   const date = new Date(timestamp);
-  
+
+  if (isNaN(date.getTime())) {
+    return {
+      date: 'Unknown Date',
+      time: '--:--'
+    };
+  }
+
   if (isToday(date)) {
     return {
       date: 'Today',
@@ -136,51 +143,63 @@ const formatTimestamp = (timestamp: string) => {
 export default function History() {
   const [, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions] = useState<Transaction[]>([
+    {
+      id: 1,
+      userId: 101,
+      description: 'Payment to Swiggy',
+      upiId: 'swiggy@icici',
+      amount: -45900,
+      currency: 'inr',
+      transactionType: 'payment',
+      status: 'completed',
+      paymentMethod: 'upi',
+      paymentIntentId: undefined,
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), // 2 hours ago
+      merchantName: 'Swiggy',
+      appUsed: 'GPay',
+    },
+    {
+      id: 2,
+      userId: 101,
+      description: 'Received from Aman',
+      upiId: 'aman123@okhdfcbank',
+      amount: 120000,
+      currency: 'inr',
+      transactionType: 'transfer',
+      status: 'completed',
+      paymentMethod: 'upi',
+      paymentIntentId: undefined,
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 26).toISOString(), // 1 day 2 hours ago
+      merchantName: 'Aman',
+      appUsed: 'PhonePe',
+    },
+    {
+      id: 3,
+      userId: 101,
+      description: 'Refund from Amazon',
+      upiId: 'amazon@apl',
+      amount: 25000,
+      currency: 'inr',
+      transactionType: 'refund',
+      status: 'pending',
+      paymentMethod: 'card',
+      paymentIntentId: 'pi_1Hxxxx',
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 50).toISOString(), // 2 days 2 hours ago
+      merchantName: 'Amazon',
+      appUsed: 'Amazon Pay',
+    },
+  ]);
   const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([]);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("all");
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const itemsPerPage = 10;
   
-  // Get userId from auth state
-  const { authState } = useAuthState();
-  
   // Fetch user transactions when component mounts
   useEffect(() => {
-    const fetchTransactions = async () => {
-      if (!authState.isLoggedIn || !authState.userId) {
-        setError("You need to be logged in to view transaction history");
-        setIsLoading(false);
-        return;
-      }
-      
-      try {
-        setIsLoading(true);
-        const response = await apiRequest('GET', `/api/transactions/${authState.userId}`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch transaction history');
-        }
-        
-        const data = await response.json();
-        setTransactions(data);
-        setIsLoading(false);
-      } catch (err) {
-        console.error('Error fetching transactions:', err);
-        setError('Failed to load transaction history');
-        setIsLoading(false);
-      }
-    };
-    
-    fetchTransactions();
-  }, [authState.isLoggedIn, authState.userId]);
-  
-  // Apply filters and search
-  useEffect(() => {
+    // Apply filters and search
     let result = [...transactions];
     
     // Apply search filter
@@ -213,19 +232,18 @@ export default function History() {
     paginatedTransactions.forEach(transaction => {
       const date = new Date(transaction.timestamp);
       let groupKey: string;
-      
-      if (isToday(date)) {
+      if (isNaN(date.getTime())) {
+        groupKey = 'Unknown Date';
+      } else if (isToday(date)) {
         groupKey = 'Today';
       } else if (isYesterday(date)) {
         groupKey = 'Yesterday';
       } else {
         groupKey = format(date, 'dd MMM yyyy'); // e.g. "15 Apr 2025"
       }
-      
       if (!grouped[groupKey]) {
         grouped[groupKey] = [];
       }
-      
       grouped[groupKey].push(transaction);
     });
     
@@ -299,31 +317,7 @@ export default function History() {
       
       {/* Main content */}
       <div className="flex-1 p-4">
-        {isLoading ? (
-          // Loading state
-          <div className="space-y-4">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="flex items-center space-x-4">
-                <Skeleton className="h-12 w-12 rounded-full" />
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-[200px]" />
-                  <Skeleton className="h-4 w-[160px]" />
-                </div>
-                <Skeleton className="h-4 w-16 ml-auto" />
-              </div>
-            ))}
-          </div>
-        ) : error ? (
-          // Error state
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <AlertCircle className="w-12 h-12 text-destructive mb-4" />
-            <h3 className="text-lg font-medium mb-2">Failed to load transactions</h3>
-            <p className="text-muted-foreground mb-6">{error}</p>
-            <Button onClick={() => window.location.reload()} variant="outline">
-              Retry
-            </Button>
-          </div>
-        ) : filteredTransactions.length === 0 ? (
+        {filteredTransactions.length === 0 ? (
           // Empty state
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <ReceiptText className="w-12 h-12 text-muted-foreground mb-4" />
@@ -359,7 +353,6 @@ export default function History() {
                           <div className={`w-10 h-10 rounded-full ${getPaymentAppColor(transaction.appUsed)} flex items-center justify-center mr-4 flex-shrink-0`}>
                             <PaymentMethodIcon method={transaction.paymentMethod || 'upi'} />
                           </div>
-                          
                           {/* Transaction details */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center">
@@ -387,7 +380,6 @@ export default function History() {
                               )}
                             </div>
                           </div>
-                          
                           {/* Amount */}
                           <div className="flex items-center ml-4">
                             <p className={`font-semibold ${transaction.amount < 0 ? 'text-red-600' : 'text-green-600'}`}>
@@ -402,7 +394,6 @@ export default function History() {
                 </div>
               </div>
             ))}
-            
             {/* Pagination */}
             {totalPages > 1 && (
               <Pagination className="my-6">
@@ -417,7 +408,6 @@ export default function History() {
                       <ArrowLeft className="h-4 w-4" />
                     </Button>
                   </PaginationItem>
-                  
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                     <PaginationItem key={page}>
                       <PaginationLink
@@ -428,7 +418,6 @@ export default function History() {
                       </PaginationLink>
                     </PaginationItem>
                   ))}
-                  
                   <PaginationItem>
                     <Button 
                       variant="outline"
@@ -476,7 +465,14 @@ export default function History() {
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Date & Time</span>
                   <span className="font-medium">
-                    {format(new Date(selectedTransaction.timestamp), 'dd MMM yyyy, h:mm a')}
+                    {(() => {
+                      const date = new Date(selectedTransaction.timestamp);
+                      if (isNaN(date.getTime())) {
+                        return 'Unknown Date, --:--';
+                      } else {
+                        return format(date, 'dd MMM yyyy, h:mm a');
+                      }
+                    })()}
                   </span>
                 </div>
                 
@@ -498,7 +494,7 @@ export default function History() {
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Payment Method</span>
                   <span className="font-medium">
-                    {selectedTransaction.paymentMethod.toUpperCase()}
+                    {(selectedTransaction.paymentMethod ? selectedTransaction.paymentMethod.toUpperCase() : 'Unknown')}
                     {selectedTransaction.appUsed && ` (${selectedTransaction.appUsed})`}
                   </span>
                 </div>
