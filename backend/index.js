@@ -624,7 +624,7 @@ app.post('/api/analyze-whatsapp', upload.single('screenshot'), async (req, res) 
       filename: req.file.originalname,
       contentType: req.file.mimetype,
     });
-    const response = await axios.post('http://localhost:8083/analyze-whatsapp', formData, {
+    const response = await axios.post('http://localhost:8090/analyze-whatsapp', formData, {
       headers: formData.getHeaders(),
     });
     res.json(response.data);
