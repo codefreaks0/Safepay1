@@ -30,7 +30,7 @@ transformers
 sentencepiece
 librosa
 soundfile
-tochvision
+torchvision
 python-dotenv
 python-multipart
 
